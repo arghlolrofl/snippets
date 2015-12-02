@@ -1,0 +1,7 @@
+// PowerShell Cmd to extract a file from a zip archive
+//     1. path to 7z.exe
+//	   2. test archive
+//	   3. archive path
+//	   4. file in archive
+//	   5. extract with given password
+& 'C:\Program Files\7-Zip\7z.exe' t .\temp.zip testfile2.txt -p123
