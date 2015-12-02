@@ -1,0 +1,6 @@
+// How to create large dummy files with PowerShell
+$path = "$env:temp\testfile.txt"
+$file = [io.file]::Create($path)
+$file.SetLength(1gb)
+$file.Close()
+Get-Item $path

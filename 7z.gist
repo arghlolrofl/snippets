@@ -1,4 +1,4 @@
-// PowerShell Cmd to extract a file from a zip archive
+// How to test a file in an archive with 7zip
 //     1. path to 7z.exe
 //	   2. test archive
 //	   3. archive path
