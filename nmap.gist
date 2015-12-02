@@ -1,0 +1,3 @@
+// How to scan for ports with NMap
+// nmap -p {Port} -T{Timing Level} {Target}
+nmap -p 8086 -T2 kd-402-174
