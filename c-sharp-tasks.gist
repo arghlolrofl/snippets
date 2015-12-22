@@ -1,0 +1,78 @@
+class Program
+  {
+    delegate void MyEventHandler(MyEventArgs args);
+
+    event MyEventHandler ReachedMultipleOfTen;
+    private void RaiseReachedMultipleOfTen(int threadId, int value)
+    {
+      MyEventHandler handler = ReachedMultipleOfTen;
+      if (handler != null)
+        handler(new MyEventArgs() { ThreadId = threadId, Value = value });
+    }
+
+    static int coreCount;
+
+    static void Main(string[] args)
+    {
+      coreCount = Environment.ProcessorCount;
+      Console.WriteLine("CPU's detected: " + coreCount + Environment.NewLine);
+
+      Program p = new Program();
+      p.Run();
+    }
+
+    private void Run()
+    {
+      printThreadInfo(Thread.CurrentThread);
+      ReachedMultipleOfTen += Program_ReachedMultipleOfTen;
+
+
+      Task[] tasks = new Task[coreCount];
+
+      for (int i = 0; i < tasks.Length; i++)
+      {
+        Task t = new Task(() => simulateCpuLoad(90));
+        t.Start();
+        tasks[i] = t;
+      }
+
+      Task.WaitAll(tasks);
+    }
+
+    private void Program_ReachedMultipleOfTen(MyEventArgs args)
+    {
+      Console.WriteLine("Message from Thread [{0}]: {1}", args.ThreadId, args.Value);
+    }
+
+    void simulateCpuLoad(int percentage, int durationSeconds = 15)
+    {
+      int counter = 0;
+
+      if (percentage < 0 || percentage > 100)
+        throw new ArgumentException("percentage");
+
+      printThreadInfo(Thread.CurrentThread);
+
+      Stopwatch watch = new Stopwatch();
+      watch.Start();
+      while (true && counter <= durationSeconds * 10)
+      {
+        // Make the loop go on for "percentage" milliseconds then sleep the 
+        // remaining percentage milliseconds. So 40% utilization means work 40ms and sleep 60ms
+        if (watch.ElapsedMilliseconds > percentage)
+        {
+          Thread.Sleep(100 - percentage);
+          watch.Reset();
+          counter++;
+          if (counter % 10 == 0)
+            RaiseReachedMultipleOfTen(Thread.CurrentThread.ManagedThreadId, counter);
+          watch.Start();
+        }
+      }
+    }
+
+    static void printThreadInfo(Thread thread)
+    {
+      Console.WriteLine(String.Format("Thread [{0}]: {1}", thread.ManagedThreadId, thread.ThreadState));
+    }
+}
