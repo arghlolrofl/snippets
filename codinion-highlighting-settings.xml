@@ -82,8 +82,8 @@
     <Entry Key="CodinionCSharpEnumMemberClassifier">
       <Format IsEnabled="true">
         <ClassifierName>CodinionCSharpEnumMemberClassifier</ClassifierName>
-        <Color>#FF6F008A</Color>
-        <Decorations />
+        <Color>#FFD2691E</Color>
+        <Decorations IsBold="true" />
       </Format>
     </Entry>
     <Entry Key="CodinionCSharpTypeParameterClassifier">
@@ -122,9 +122,9 @@
       </Format>
     </Entry>
     <Entry Key="CodinionCSharpEnumClassifier">
-      <Format>
+      <Format IsEnabled="true">
         <ClassifierName>CodinionCSharpEnumClassifier</ClassifierName>
-        <Color>#FFB8D7A3</Color>
+        <Color>#FFD2691E</Color>
         <Decorations />
       </Format>
     </Entry>
